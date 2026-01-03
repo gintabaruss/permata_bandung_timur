@@ -1,0 +1,1700 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>PERMATA BANTIM MINI APP!</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chango&family=Kings&family=Matemasie&family=Monoton&family=Rubik+Spray+Paint&family=Satisfy&family=Sekuya&family=Tagesschrift&display=swap" rel="stylesheet">
+<style>
+
+  body{
+    font-family:'Tagesschrift', system-ui;
+    margin:0;
+    /* Ubah background body menjadi pink muda */
+    background:#fff; 
+  }
+  {
+    font-family:'Tagesschrift', system-ui;
+    letter-spacing:1px;
+  }
+
+  /* SCREEN FRAME */
+  .screen-frame{
+    width:auto;
+    height:747px;
+    background:#fff; /* Tetap hijau gelap untuk kontras layar retro */
+    margin:5px auto 0;
+    margin-left:5px;margin-right:5px;
+    border-radius:10px;
+    border:6px solid #000;
+    position:relative;
+    padding:10;
+    overflow: hidden;
+  }
+
+  .screen-frame::after{
+    content:"";
+    position:relative;
+    inset:0;
+    /* Pertahankan efek scanline hijau */
+    background:linear-gradient(rgba(0,255,0,0.1) 2px, transparent 2px),
+                linear-gradient(90deg, rgba(0,255,0,0.1) 2px, transparent 2px);
+    background-size:4px 4px;
+    pointer-events:none;
+  }
+.screen-frame2{
+    width:auto;
+    height:747px;
+    background:#fff; /* Tetap hijau gelap untuk kontras layar retro */
+    margin:5px auto 0;
+    margin-left:5px;margin-right:5px;
+    border-radius:10px;
+    position:relative;
+    padding:10;
+    overflow: hidden;
+  }
+
+  .screen-frame2::after{
+    content:"";
+    position:relative;
+    inset:0;
+    /* Pertahankan efek scanline hijau */
+    pointer-events:none;
+  }
+  /* SCREEN CONTENT */
+  .app{
+    width:100%;height:100%;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    color:#000; /* Tetap hijau terang */
+    overflow-y: auto;
+  }
+
+  header{
+      display:flex;
+  } 
+
+  /* MENU BUTTONS OUTSIDE SCREEN */
+  #main-menu{
+     display:flex;
+      justify-content:center;
+      align-items:center;
+    gap:16px;
+    padding:20px;
+    width: 100%; 
+    box-sizing: border-box;
+    /* Memberi latar belakang untuk area menu agar terlihat lebih pink */
+    background: #fff; 
+    border-radius: 10px;
+  }
+  
+ #btn1{
+     display:none;
+}
+    
+  #btn{
+     padding:7px;
+    border-radius:10px;
+    background:#fff;
+    font-family:'Tagesschrift', system-ui;
+    font-size:20px;
+    cursor:pointer;
+    border:4px solid #000;
+    color:#000;
+    text-align:center;
+    box-shadow:0 4px 0 #000;
+    user-select: none;
+  }
+
+  #btn:active{
+    box-shadow: 0 0 0 #000;
+    transform: translateY(4px);
+  }
+
+.btnfilter {
+  padding:7px;
+  border-radius:10px;
+  background:#fff;
+  font-family:'Tagesschrift', system-ui;
+  font-size:20px;
+  cursor:pointer;
+  border:4px solid #000;
+  color:#000;
+  text-align:center;
+  box-shadow:0 4px 0 #000;
+  user-select: none;
+  transition: 
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    background 0.25s ease,
+    border-color 0.25s ease;
+  }
+.btnfilter:hover:not(.active) {
+  transform: scale(1.1);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+}
+.btnfilter.active {
+  border-color: #ff4fbf !important;
+  background: #ffe3f1 !important;
+  box-shadow: 0 0 0 #000 !important;
+  transform: scale(1.05);
+}
+
+
+  /* SECTIONS */
+  .section{display:none;padding:20px;color:#000;width:100%;box-sizing: border-box;text-shadow: none; overflow-y: auto;}
+  .back{background:#ddd;color:#000;margin-bottom:12px;border-radius:8px;padding:8px 12px;width:max-content;cursor:pointer;border:2px solid #000;font-size:10px;}  
+  .section h2{font-size: 16px; margin-top: 0; margin-bottom: 15px;}
+  .section p{font-size:12px; line-height: 1.6;}
+  /* SECTIONS 2 */
+  .section2{display:none;padding:20px;color:#000;width:100%;box-sizing: border-box;text-shadow: none; overflow-y: auto;}
+  .back2{background:#ddd;color:#000;margin-bottom:12px;border-radius:8px;padding:8px 12px;width:max-content;cursor:pointer;border:2px solid #000;font-size:10px;}  
+  .section2 h2{font-size: 16px; margin-top: 0; margin-bottom: 15px;}
+  .section2 p{font-size:12px; line-height: 1.6;}
+  /* SECTIONS 3 */
+  .section3{display:none;padding:20px;color:#000;width:100%;box-sizing: border-box;text-shadow: none; overflow-y: auto;}
+  .back3{background:#ddd;color:#000;margin-bottom:12px;border-radius:8px;padding:8px 12px;width:max-content;cursor:pointer;border:2px solid #000;font-size:10px;}  
+  .section3 h2{font-size: 16px; margin-top: 0; margin-bottom: 15px;}
+  .section3 p{font-size:12px; line-height: 1.6;}
+  /* SECTIONS 4*/
+  .section4{display:none;padding:20px;color:#000;width:100%;box-sizing: border-box;text-shadow: none; overflow-y: auto;align-items:center}
+  .back4{background:#ddd;color:#000;margin-bottom:12px;border-radius:8px;padding:8px 12px;width:max-content;cursor:pointer;border:2px solid #000;font-size:10px;}  
+  .section4 h2{font-size: 16px; margin-top: 0; margin-bottom: 15px;}
+  .section4 p{font-size:12px; line-height: 1.6;}
+   /* SECTIONS */
+  .section5{display:none;padding:20px;color:#000;width:100%;box-sizing: border-box;text-shadow: none; overflow-y: auto;}
+  .back5{background:#ddd;color:#000;margin-bottom:12px;border-radius:8px;padding:8px 12px;width:max-content;cursor:pointer;border:2px solid #000;font-size:10px;}  
+  .section5 h2{font-size: 16px; margin-top: 0; margin-bottom: 15px;}
+  .section5 p{font-size:12px; line-height: 1.6;}
+/* ===== Photobooth mini + Photostrip CSS ===== */
+.photobooth-wrap {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+
+}
+
+/* kiri: video + controls */
+.photobooth-left {
+
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* kanan: preview strip + download */
+.photobooth-right {
+ widht:auto;
+ height:auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+}
+
+/* video kamera (mini) */
+.photobooth-wrap #camera {
+    transform:scaleX(-1);
+  width: 800px;
+  height: 600px;            /* tinggi tetap agar proporsional di gameboy */
+  object-fit: cover;
+  background: #000;
+  border: 4px solid #000; /* cocok dengan tema hijau retro */
+  border-radius: 6px;
+  box-shadow: 0 4px 0 rgba(0,0,0,0.6);
+}
+
+/* tombol ambil 3 foto */
+#capture3Btn {
+  padding: 7px;
+  font-size: 20px;
+  font-family:'Tagesschrift', system-ui;
+  border-radius: 8px;
+  border: 3px solid #000;
+  background: linear-gradient(#fff, #fff);
+  cursor: pointer;
+  box-shadow: 0 4px 0 #000;
+  width: 100%;
+}
+
+#capture3Btn:active { transform: translateY(4px); box-shadow: none; 
+}
+
+/* countdown besar (angka) */
+#countdown {
+  font-weight: 700;
+  font-size: 16px;
+  text-align: center;
+  color: #ff4fbf;      /* kontras menyenangkan */
+  text-shadow: 0 0 6px rgba(255,0,150,0.25);
+  min-height: 24px;
+}
+
+/* photo strip preview (di dalam frame polaroid) */
+.photo-frame {
+  width: 100%;
+  max-width: 220px;
+  background: #fff;
+  padding: 12px;
+  border: 12px solid #ff80b4;       /* tebal seperti polaroid */
+  box-shadow: 0 6px 0 rgba(0,0,0,0.35);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  border-radius: 6px;
+}
+
+/* area di dalam frame yang berisi strip image */
+.photo-frame .strip-holder {
+  width: 100%;
+  background: #eee;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 5px solid #000;
+}
+
+/* gambar photo strip (vertikal) */
+#photoStrip {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: contain;
+}
+
+/* tombol download */
+#downloadStripBtn {
+  padding: 8px 10px;
+  font-size: 12px;
+  border-radius: 8px;
+  border: 3px solid #000;
+  background: linear-gradient(#ffb3d9, #ff80b4);
+  cursor: pointer;
+  box-shadow: 0 4px 0 #000;
+  width: 100%;
+}
+
+#downloadStripBtn:active { transform: translateY(4px); box-shadow: none; }
+
+/* thumbnail kecil (opsional) jika ingin menampilkan satu-satu foto hasil */
+.strip-thumb {
+  width: 48px;
+  height: 64px;
+  object-fit: cover;
+  border: 3px solid #000;
+  background: #fff;
+  border-radius: 4px;
+}
+
+/* responsif: jika ruang sempit, susun vertikal */
+@media (max-width: 640px) {
+  .photobooth-wrap { flex-direction: column; gap: 10px; }
+  .photo-frame { max-width: 100%; }
+  #camera { height: 240px; }
+}
+/* === GIF PREVIEW CENTER & BIG === */
+#gifContainer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin: 10px 0;
+}
+
+#gifPreview {
+  width: 600px;            /* responsif */
+   max-width: 95vw;
+   height:auto;      /* BESAR */
+  border: 6px solid #000;
+  border-radius: 10px;
+  display: none;
+  box-shadow: 0 6px 0 rgba(0,0,0,0.6);
+  background: #fff;
+}
+#downloadGifBtn {padding:12px 20px ;background:#fff;color:#000;border:4px solid #000;border-radius:8px;cursor:pointer;user-select: none;}
+   #downloadGifBtn:active{
+         box-shadow: 0 0 0 #000;
+    transform: translateY(4px);
+   }
+#downloadAllBtn {padding:12px 20px ;background:#fff;color:#000;border:4px solid #000;border-radius:8px;cursor:pointer;user-select: none;}
+   #downloadAllBtn:active{
+         box-shadow: 0 0 0 #000;
+    transform: translateY(4px);
+   }
+   #resetBtn {padding:12px 20px ;background:#fff;color:#000;border:4px solid #000;border-radius:8px;cursor:pointer;user-select: none;}
+   #resetBtn:active{
+         box-shadow: 0 0 0 #000;
+    transform: translateY(4px);
+   }
+  #password-box {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    text-align: center;
+  }
+
+  #passwords {
+    display: none; /* disembunyikan dulu */
+    text-align: center;
+  }
+
+  input {
+    padding: 8px;
+    font-size: 16px;
+    text-align: center;
+    width: 120px;
+  }
+
+  button {
+    margin-top: 10px;
+    padding: 8px 15px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+
+
+  /* START SCREEN */
+  #startScreen{position:fixed;inset:0;background:#fff;color:#000;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:10000;} 
+  #startBtn{position:absolute;padding:215px 100px;font-family:"Rubik Spray Paint", system-ui;;background:#fff;color:#000;border:4px solid #000;border-radius:8px;cursor:pointer;user-select: none;animation:floatTilt2 8s ease-in-out infinite;opacity:0}
+  #startBtn:active{
+    box-shadow: 0 0 0 #000;
+    transform: translateY(4px);
+  }
+
+    
+  /*Ucapan */
+  #password-box{background:#FFFFFF}
+  #password{background:#FFFFFF}
+  #ucapan{background:#FFFFFF}
+  #gallery{background:#FFFFFF}
+  #photobooth{background:#fff}
+  #photoboothh{background:#fff;align-items:center;} 
+  #inputUName{background:#fff;align-items:center;}
+  #music{background:#FFFFFF}
+  /**/
+  /* FLASH PUTIH */
+#flash {
+  position: fixed;
+  inset: 0;
+  background: white;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 99999;
+}
+
+/* ANIMASI FLASH */
+.flash {
+  animation: flashAnim 0.5s ease;
+}
+
+@keyframes flashAnim {
+  0%   { opacity: 0; }
+  20%  { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+/* ANIMASI COUNTDOWN */
+@keyframes pop {
+  0% { transform: scale(0.6); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+#userName {
+    background:#000;
+  font-size: 38px;        /* ukuran teks ketikan */
+  padding: 10px 10px;     /* tinggi input */
+  width: 80%;
+  max-width: 500px;
+  text-align: center;
+  border: 4px solid #000;
+  border-radius: 10px;
+  outline: none;
+}
+#userName::placeholder {
+  font-size: 25px;
+  color: #888;
+}
+.fototiktok{
+    width: 36px;
+  height: 36px;
+  position:absolute;display:flex;bottom:450px;right:1291.6px
+}
+.fotoig{
+    width: 40px;
+  height: 40px;
+  position:absolute;display:flex;bottom:490px;right:1290px
+}
+.fotopb{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+    width: 550px;
+  height: 550px;
+  border-radius: 12px;
+  animation:floatTilt 8s ease-in-out infinite;
+}
+@keyframes floatTilt {
+  0% {
+    transform: translateY(0) rotate(-2deg) scale(1) translateX(0);
+    box-shadow: 0 0 5px #0ff;
+  }
+  25%{
+      transform:translateY(-10px) rotate(0)  scale(1.025) translateX(-10px);
+      box-shadow: 0 0 30px #0ff;
+  }
+  50% {
+    transform: translateY(0) rotate(2deg) scale(1.05) translateX(0px);
+    box-shadow: 0 0 55px #0ff;
+  }
+    75% {
+    transform: translateY(10px) rotate(0deg) scale(1.025) translateX(10px);
+    box-shadow: 0 0 30px #0ff;
+  }
+  100% {
+    transform: translateY(0) rotate(-2deg) scale(1) translateX(0px);
+    box-shadow: 0 0 5px #0ff;
+  }
+}
+@keyframes floatTilt2 {
+  0% {
+    transform: translateY(0) rotate(-2deg) scale(1) translateX(0);
+  }
+  25%{
+      transform:translateY(-10px) rotate(0)  scale(1.025) translateX(-10px);
+  }
+  50% {
+    transform: translateY(0) rotate(2deg) scale(1.05) translateX(0px);
+  }
+    75% {
+    transform: translateY(10px) rotate(0deg) scale(1.025) translateX(10px);
+  }
+  100% {
+    transform: translateY(0) rotate(-2deg) scale(1) translateX(0px);
+  }
+}
+/* FRAME THUMBNAIL HOVER SCALE */
+.frame-thumb {
+  width: 40px;
+  cursor: pointer;
+  border: 4px solid #000;
+  border-radius: 8px;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  transform-origin: center;
+}
+
+.frame-thumb:hover {
+  transform: scale(1.5) translateY(0);
+  z-index: 20;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+}
+
+/* frame aktif (setelah diklik) */
+.frame-thumb.active {
+  transform: scale(1);
+  border-color: #ff4fbf;
+}
+
+
+
+</style>
+</head>
+
+<script src="https://cdn.jsdelivr.net/npm/gifshot@0.3.2/build/gifshot.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+<body>
+    
+    
+<div id="startScreen" class="section5">
+    
+    <a href="https://www.instagram.com/permatabandungtimur_?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" style="position:absolute;display:flex;bottom:500px;right:1075px;font-size:18px;color:black;text-decoration:none" target="_blank" rel="noopener noreferrer" >@permatabandungtimur_</a>
+    <img src="https://github.com/gintabaruss/permata_bandung_timur/blob/main/%E2%80%94Pngtree%E2%80%94instagram%20logo%20icon%20vector_3588821.png?raw=true" class="fotoig">
+    <a href="https://www.tiktok.com/@permatabandungtimur_?is_from_webapp=1&sender_device=pc" style="position:absolute;display:flex;bottom:457px;right:1075px;font-size:18px;color:black;text-decoration:none" target="_blank" rel="noopener noreferrer" >@permatabandungtimur_</a>
+    <img src="https://github.com/gintabaruss/permata_bandung_timur/blob/main/tiktok-logo_1080029-103.png?raw=true" class="fototiktok">
+    <img src="https://github.com/gintabaruss/permata_bandung_timur/blob/main/PERMATA%20BANDUNG%20TIMUR.png?raw=true" class="fotopb" onclick="openSection('main-menu')">
+    <button style="font-size:100px" id="startBtn">START</button>
+</div>
+
+
+
+<div class="screen-frame">
+    <div class="app">
+      <div id="main-menu" class="menu">
+          <p style="position:absolute;top:0;width:100%;text-align:center;    text-shadow:0 0 6px #00ff41;margin-top:10px;
+    font-size:30px;
+    padding:0;">PERMATA Bandung Timur Mini App!</p>
+        
+        <button id="btn" onclick="openSection('inputUName')">📸 Mini Photobooth</button>
+</div>
+
+
+      
+<div id="inputUName" class="section3">
+  <input
+  id="userName"
+  type="text"
+  placeholder="Input Your Name"
+  style="padding:20px;font-size:30px;color:#fff;text-align:center;font-family: 'Tagesschrift', system-ui;"
+  maxlength="20">
+  <br>
+<button id="btn" onclick="confirmName()">Pilih Photo Strip ></button>
+ <p id="warning" style="color:red;font-size:20px;display:none;">
+    ⚠️ Nama harus diisi dulu!
+  </p>
+</div>
+ 
+
+
+<div id="frameSelect" class="section">
+    <!-- THUMBNAILS -->
+  <div id="frameList"
+     style="display:flex;gap:16px;justify-content:center;margin:25px 0;flex-wrap:wrap;overflow:visible">
+  </div>
+  <!-- PREVIEW BESAR -->
+  <div style="display:flex;justify-content:center;">
+    <img id="framePreview"
+         style="width:175px;border:6px solid #000;border-radius:10px">
+  </div>
+  <br>
+  <button id="btn" onclick="confirmFrame()">Take Photo ></button>
+   <p id="warningg" style="color:red;font-size:20px;display:none;align-items:center;justify-content:center">
+    ⚠️ Pilih frame dulu!
+  </p>
+</div>
+
+
+
+<div id="photobooth" class="section">
+      <div class="screen-frame2">
+  <div class="photobooth-wrap">
+    <div class="photobooth-left"> 
+      <video id="camera" autoplay playsinline></video>
+        
+      <button id="capture3Btn" class="btn">Capture ></button>
+    <div id="countdown" style="font-size:60px;font-family:'Kings', cursive;;margin-top:5px;color:#000"></div>
+    
+</div></div></div></div>
+
+
+<div id="previewStep" class="section4">
+  <h2 id="previewTitle">Preview Foto</h2>
+
+  <img id="previewFull"
+       style="
+         width:90%;
+         max-width:600px;
+         border:6px solid #000;
+         border-radius:12px;
+       ">
+
+  <div style="margin-top:20px;display:flex;gap:20px;justify-content:center">
+    <button id="btn" onclick="retakeFromPreview()">Retake</button>
+    <button id="btn" onclick="confirmFromPreview()">Ok</button>
+  </div>
+</div>
+
+    <div id="photoboothh" class="section2" style="flex-wrap:wrap">
+
+<canvas
+  id="filterCanvas"
+  width="240"
+  height="715"
+  style="
+    border:0px solid #000;
+    border-radius:0px;
+    display:block;
+    margin-left:200px;
+  ">
+</canvas>
+<!-- FOTO SATUAN --> <div id="singlePhotos" style="display:none;gap:10px;flex-wrap:wrap;justify-content:center;margin-left:-500px"> </div> <hr style="margin-left:-500px;border:2px solid #000">
+<h4 style="font-size:25px;margin-left:-500px;">Choose ur filter! </h4>
+<div id="filterPreview"
+     style="display:flex;margin-left:-500px;gap:12px;justify-content:center;flex-wrap:wrap">
+  <button id="filter1" class="btnfilter" onclick="setFilter('normal')">Normal</button>
+  <button id="filter2" class="btnfilter"  onclick="setFilter('bw')">BnW</button>
+  <button id="filter3" class="btnfilter" onclick="setFilter('sepia')">Sephia</button>
+  <button id="filter4" class="btnfilter" onclick="setFilter('vintage')">Vintage</button>
+  <button id="filter5" class="btnfilter" onclick="setFilter('warm')">Warm</button>
+  <button id="filter6" class="btnfilter" onclick="setFilter('cool')">Cool</button>
+    <button id="filter12" class="btnfilter" onclick="setFilter('retro')">Retro</button>
+</div>
+<div id="filterPreview"
+     style="display:flex;margin-left:-500px;gap:12px;justify-content:center;flex-wrap:wrap">
+  <button id="filter7" class="btnfilter" onclick="setFilter('highcontrast')">High Contrast</button>
+  <button id="filter8" class="btnfilter" onclick="setFilter('fadepastel')">Fade Pastel</button>
+  <button id="filter9" class="btnfilter" onclick="setFilter('dramatic')">Dramatic</button>
+  <button id="filter10" class="btnfilter" onclick="setFilter('pinky')">Pinky</button>
+  <button id="filter11" class="btnfilter" onclick="setFilter('goldenhour')">Golden Hour</button>
+
+</div>
+<h3 style="margin-left:-500px">🎞️ GIF Preview</h3>
+<div id="gifContainer">
+<img id="gifPreview"
+     style="max-width:360px;margin-left:-500px;border:4px solid #000;display:none">
+</div>
+<br>
+<div
+     style="display:flex;;margin-left:0;gap:12px;justify-content:center;flex-wrap:wrap">
+<a id="downloadGifBtn"
+   download="photobooth.gif" style="display:none;opacity:0;margin-left:-500px">
+</a><button id="downloadAllBtn" style="padding:7px;
+    border-radius:10px;
+    background:#fff;
+    font-family:'Tagesschrift', system-ui;
+    font-size:20px;
+    cursor:pointer;
+    border:4px solid #000;
+    color:#000;
+    text-align:center;
+    box-shadow:0 4px 0 #000;
+    user-select: none;">⬇️ Download
+</button><button
+  id="resetBtn" style="padding:7px;
+    border-radius:10px;
+    background:#fff;
+    font-family:'Tagesschrift', system-ui;
+    font-size:20px;
+    cursor:pointer;
+    border:4px solid #000;
+    color:#000;
+    text-align:center;
+    box-shadow:0 4px 0 #000;
+    user-select: none;" class="btn">
+  🔄 Reset
+</button>
+</div>
+
+  <!-- PHOTO STRIP -->
+  <img id="photoStrip" style="display:none;max-width:220px">
+
+  <button id="downloadStripBtn" style="display:none">
+    ⬇️ Download Photo Strip
+  </button>
+</div>
+</div>
+</div>
+<!-- FLASH EFFECT -->
+<div id="flash"></div>
+
+<!-- SOUNDS -->
+<audio id="beepSound" src="https://actions.google.com/sounds/v1/alarms/beep_short.ogg"></audio>
+<audio id="shutterSound" src="https://actions.google.com/sounds/v1/camera/camera_shutter_click_01.ogg"></audio>
+
+
+  <div class="btnA" id="btnA" onclick="playClickSound(); handleControl('A')"></div>
+  <div class="labelA"></div>
+  <div class="btnB" id="btnB" onclick="playClickSound(); handleControl('B')"></div>
+  <div class="labelB"></div>
+  <div class="selectStart">
+    <div class="smallBtn" onclick="playClickSound()"></div>
+    <div class="smallBtn" onclick="playClickSound()"></div>
+  </div>
+
+  <audio id="clickSound" src="https://actions.google.com/sounds/v1/cartoon/pop.ogg"></audio>
+
+<script>
+const startBtn = document.getElementById('startBtn');
+const startScreen = document.getElementById('startScreen');
+const loadingScreen = null;
+const pixelBars = [];
+const clickSound = document.getElementById('clickSound');
+
+// --- 1. START SCREEN & LOADING LOGIC ---
+startBtn.onclick = () => {
+  playClickSound();
+  startScreen.style.display = 'none';
+openSection('inputUName');
+
+  let index = 0;
+  const loadingInterval = setInterval(() => {
+    if (index < pixelBars.length) {
+      pixelBars[index].style.opacity = '1';
+      index++;
+    } else {
+      clearInterval(loadingInterval);
+      setTimeout(() => {
+        loadingScreen.style.opacity = '0';
+        setTimeout(() => loadingScreen.style.display = 'none', 500);
+      }, 300);
+    }
+  }, 120);
+};
+
+function playClickSound() {
+    clickSound.currentTime = 0;
+ 
+}
+
+// --- 2. MENU NAVIGATION ---
+function openSection(id) {
+  playClickSound();
+  document.getElementById('main-menu').style.display = 'none';
+  document.querySelectorAll('.section').forEach(s => s.style.display = 'none');
+  const section = document.getElementById(id);
+  section.style.display = 'flex';
+  section.style.flexDirection = 'column';
+  
+  // Spesifik untuk Photobooth: mulai kamera
+  if (id === 'photobooth') {
+      startCamera();
+  }
+   if (id === 'inputUName') {
+    focusNameInput();
+   }
+}
+function focusNameInput() {
+  const input = document.getElementById("userName");
+  if (!input) return;
+
+  setTimeout(() => {
+    input.focus();
+    input.select(); // opsional: langsung select semua teks
+  }, 100);
+}
+
+function backMenu() {
+  playClickSound();
+  stopCamera(); // Stop camera just in case
+  document.querySelectorAll('.section').forEach(s => s.style.display = 'none');
+  document.getElementById('main-menu').style.display = 'grid';
+}
+
+// --- 3. PHOTOBOOTH LOGIC ---
+/* ============================================================
+   PHOTOBOOTH - AMBIL 3 FOTO + BUAT PHOTO STRIP + DOWNLOAD
+   ============================================================ */
+const frames = [
+  {
+    id: "frame13",
+    name: "Pink Classic (3 Foto)",
+    count: 3,bg:"#fff",
+    thumb: "https://github.com/gintabaruss/permata_bandung_timur/blob/main/5.png?raw=true",
+    preview: "https://github.com/gintabaruss/permata_bandung_timur/blob/main/5.png?raw=true"
+  },{
+    id: "frame23",
+    name: "Pink Classic (3 Foto)",
+    count: 3,bg:"#fff",
+    thumb: "https://github.com/gintabaruss/permata_bandung_timur/blob/main/6.png?raw=true",
+    preview: "https://github.com/gintabaruss/permata_bandung_timur/blob/main/6.png?raw=true"
+  },
+  {
+    id: "frame14",
+    name: "Green Retro (4 Foto)",
+    count: 4,bg:"#fff",
+    thumb: "https://github.com/gintabaruss/permata_bandung_timur/blob/main/1.png?raw=true",
+    preview: "https://github.com/gintabaruss/permata_bandung_timur/blob/main/1.png?raw=true"
+  },
+  {
+    id: "frame24",
+    name: "Green Retro (4 Foto)",
+    count: 4,bg:"#fff",
+    thumb: "https://github.com/gintabaruss/permata_bandung_timur/blob/main/2.png?raw=true",
+    preview: "https://github.com/gintabaruss/permata_bandung_timur/blob/main/2.png?raw=true"
+  },{
+    id: "frame34",
+    name: "Green Retro (4 Foto)",
+    count: 4,bg:"#fff",
+    thumb: "https://github.com/gintabaruss/permata_bandung_timur/blob/main/3.png?raw=true",
+    preview: "https://github.com/gintabaruss/permata_bandung_timur/blob/main/3.png?raw=true"
+  },{
+    id: "frame44",
+    name: "Green Retro (4 Foto)",
+    count: 4,bg:"#fff",
+    thumb: "https://github.com/gintabaruss/permata_bandung_timur/blob/main/4.png?raw=true",
+    preview: "https://github.com/gintabaruss/permata_bandung_timur/blob/main/4.png?raw=true"
+  }
+];
+let selectedFrameImg = new Image();
+
+let selectedFrame = null;
+let totalPhotos = 3;
+function renderFrameList() {
+  const list = document.getElementById("frameList");
+  list.innerHTML = "";
+
+  frames.forEach(frame => {
+    const img = document.createElement("img");
+    img.src = frame.thumb;
+    img.className = "frame-thumb";
+
+    img.onclick = () => {
+      selectFrame(frame);
+
+      // hapus active di semua
+      document.querySelectorAll(".frame-thumb")
+        .forEach(i => i.classList.remove("active"));
+
+      // tandai yang dipilih
+      img.classList.add("active");
+    };
+
+    list.appendChild(img);
+  });
+}
+function drawFrameBackground(ctx, canvas, frame) {
+
+  // PRIORITAS 1: GRADIENT
+  if (frame.bgGradient) {
+    const g = ctx.createLinearGradient(0, 0, 0, canvas.height);
+    frame.bgGradient.forEach((c, i) => {
+      g.addColorStop(i / (frame.bgGradient.length - 1), c);
+    });
+    ctx.fillStyle = g;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    return;
+  }
+
+  // PRIORITAS 2: WARNA
+  if (frame.bg) {
+    ctx.fillStyle = frame.bg;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    return;
+  }
+
+  // DEFAULT (kalau lupa set)
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+}
+
+function selectFrame(frame) {
+  selectedFrame = frame;
+  totalPhotos = frame.count;
+  document.getElementById("framePreview").src = frame.preview;
+  selectedFrameImg = new Image();
+  selectedFrameImg.src = frame.preview;
+}
+openSection("frameSelect");
+renderFrameList();
+
+function confirmFrame() {
+ const warningg = document.getElementById("warningg");
+  if (!selectedFrame) {
+    warningg.style.display = "block";
+    return;
+  }
+  warningg.style.display ="none";
+  openSection("photobooth");
+}
+
+let activeFilter = "normal";
+let stream2 = null;
+const camera2 = document.getElementById("camera");
+const capture3Btn = document.getElementById("capture3Btn");
+const countdown = document.getElementById("countdown");
+const photoStrip = document.getElementById("photoStrip");
+const downloadStripBtn = document.getElementById("downloadStripBtn");
+const opencetak =  document.getElementById("opencetak");
+
+// START CAMERA (gunakan fungsi existing kamu)
+async function startCamera() {
+    try {
+        stream2 = await navigator.mediaDevices.getUserMedia({
+            video: { facingMode: "user", width: { ideal: 840 }, height: { ideal: 840 } }
+        });
+ 
+        camera2.srcObject = stream2;
+    } catch (err) {
+        console.error("Kamera error:", err);
+        alert("Tidak bisa mengakses kamera.");
+    }
+}
+
+function stopCamera() {
+    if (stream2) {
+        stream2.getTracks().forEach(track => track.stop());
+        camera2.srcObject = null;
+        stream2 = null;
+    }
+}
+function centerX(canvas, w) {
+  return (canvas.width - w) / 2;
+}
+
+/* 
+   AMBIL 3 FOTO OTOMATIS
+*/
+let currentIndex = 0;
+let singlePhotosData = [];
+let filteredPhotosData = [];
+
+const rawName = document.getElementById("userName").value;
+const safeName = sanitizeFileName(rawName);
+const frameLayouts = {
+  frame13: [
+     {  y: 42, w: 255, h: 215 },
+    {  y: 240, w: 230, h: 235 },
+    {  y: 442, w: 210, h: 215 }
+  ],
+   frame23: [
+    {  y: 3, w: 212, h: 216 },
+    {  y: 230, w: 212, h: 216 },
+    {  y: 457, w: 212, h: 216 }
+  ],
+  frame14: [
+    {  y: 33.5, w: 222, h: 128 },
+    {  y: 184.5, w: 222, h: 128},
+    {  y: 336.5, w: 222, h: 128 },
+    {  y: 487, w: 222, h: 128 }
+  ],
+  frame24: [
+   {   y: 2, w: 220, h: 165 },
+    {  y: 149, w: 220, h: 165 },
+    {  y: 296, w: 220, h: 165 },
+    {  y: 442, w: 220, h: 165 }
+  ],
+  frame34: [
+{      y: 26, w: 176.5, h: 140 },
+    {  y: 176, w: 176.5, h: 140 },
+    {  y: 325, w: 176.5, h: 140 },
+    {  y: 472, w: 176.5, h: 140 }
+  ],
+  frame44: [
+  {    y: 86, w: 173.5, h: 150 },
+    {  y: 236, w: 173.5, h: 150 },
+    {  y: 386, w: 173.5, h: 150 },
+    {  y: 533, w: 173.5, h: 150 }
+  ]
+};
+
+async function takeSinglePhoto() {
+  await countdownMundur(0.0001);
+  doFlash();
+  playShutter();
+
+  const canvas = document.createElement("canvas");
+  canvas.width = camera2.videoWidth;
+  canvas.height = camera2.videoHeight;
+  const ctx = canvas.getContext("2d");
+
+  ctx.translate(canvas.width, 0);
+  ctx.scale(-1, 1);
+  ctx.drawImage(camera2, 0, 0);
+
+  const imgData = canvas.toDataURL("image/png");
+  singlePhotosData[currentIndex] = imgData;
+
+  // kirim ke halaman preview
+  document.getElementById("previewFull").src = imgData;
+  const titlepreview = document.getElementById("previewTitle");
+  titlepreview.textContent =
+    `Foto ${currentIndex + 1}/${totalPhotos}`;
+    titlepreview.style.fontSize="70px";
+  openSection("previewStep");
+}
+
+function retakeFromPreview() {
+  openSection("photobooth");
+  document.getElementById("previewStep").style.display="none";
+  setTimeout(takeSinglePhoto, 300);
+}
+function confirmFromPreview() {
+  currentIndex++;
+
+  if (currentIndex < totalPhotos) {
+    openSection("photobooth");
+    document.getElementById("previewStep").style.display="none";
+    setTimeout(takeSinglePhoto, 300);
+  } else {
+    selesaiAmbilFoto();
+  }
+}
+capture3Btn.onclick = () => {
+  currentIndex = 0;
+  singlePhotosData = [];
+  takeSinglePhoto();
+  capture3Btn.style.display="none";
+};
+function selesaiAmbilFoto() {
+    stopCamera();
+
+  document.getElementById("previewStep").style.display="none";
+  buatGIF();
+  openSection("photoboothh");
+  renderFilterCanvas(); 
+   renderFilteredPhotos();// 🔥 INI KUNCI
+}
+function renderFilterCanvas() {
+  const canvas = document.getElementById("filterCanvas");
+  const ctx = canvas.getContext("2d");
+
+  drawFrameBackground(ctx, canvas, selectedFrame);
+
+
+  const layout = frameLayouts[selectedFrame.id];
+  if (!layout || !selectedFrameImg.src) return;
+
+  // =========================
+  // LOAD FOTO DULU
+  // =========================
+  const images = singlePhotosData.map(src => {
+    return new Promise(resolve => {
+      const img = new Image();
+      img.onload = () => resolve(img);
+      img.src = src;
+    });
+  });
+
+  Promise.all(images).then(imgs => {
+
+    // =========================
+    // 1️⃣ SET FILTER UNTUK FOTO
+    // =========================
+    switch (activeFilter) {
+      case "bw":
+        ctx.filter = "grayscale(100%)";
+        break;
+      case "sepia":
+        ctx.filter = "sepia(100%)";
+        break;
+      case "vintage":
+       ctx.filter = "sepia(60%) contrast(1.2) brightness(0.9) saturate(0.8)";
+        break;
+        case "warm":
+      ctx.filter = "brightness(1.05) saturate(1.3)";
+        break;
+        case "cool":
+      ctx.filter = "brightness(0.95) saturate(0.8)";
+        break;
+        case "highcontrast":
+      ctx.filter = "contrast(1.5)";
+        break;
+        case "fadepastel":
+      ctx.filter = "brightness(1.1) contrast(0.9) saturate(0.7)";
+        break;
+        case "dramatic":
+      ctx.filter = "contrast(1.4) brightness(0.9)";
+        break;
+        case "pinky":
+      ctx.filter = "sepia(20%) saturate(1.6)";
+        break;
+        case "goldenhour":
+      ctx.filter = "sepia(40%) brightness(1.1) contrast(1.1)";
+        break;
+        case "retro":
+      ctx.filter = "sepia(50%) hue-rotate(-10deg) contrast(1.1)";
+        break;
+      default:
+        ctx.filter = "none";
+    }
+
+    // =========================
+    // 2️⃣ DRAW FOTO (DI DALAM LUBANG FRAME)
+    // =========================
+   imgs.forEach((img, i) => {
+  const { y, w, h } = layout[i];
+const x = centerX(canvas, w);
+
+  ctx.save();
+
+  // FOTO UTUH (TIDAK TERPOTONG)
+  drawImageContain(ctx, img, x, y, w, h);
+
+  ctx.restore();
+});
+
+
+    // =========================
+    // 3️⃣ DRAW FRAME PALING AKHIR 🔥
+    // =========================
+    ctx.filter = "none";
+    ctx.drawImage(
+      selectedFrameImg,
+      0, 0,
+      canvas.width,
+      canvas.height
+    );
+  });
+}
+
+function drawImageCover(ctx, img, x, y, w, h) {
+  const imgRatio = img.width / img.height;
+  const boxRatio = w / h;
+
+  let drawW, drawH, offsetX, offsetY;
+
+  if (imgRatio > boxRatio) {
+    drawH = h;
+    drawW = h * imgRatio;
+    offsetX = x - (drawW - w) / 2;
+    offsetY = y;
+  } else {
+    drawW = w;
+    drawH = w / imgRatio;
+    offsetX = x;
+    offsetY = y - (drawH - h) / 2;
+  }
+
+  ctx.drawImage(img, offsetX, offsetY, drawW, drawH);
+}
+
+
+function renderPhotoFinal() {
+  const box = document.getElementById("singlePhotos");
+  box.innerHTML = "";
+
+  singlePhotosData.forEach((src) => {
+    const img = document.createElement("img");
+    img.src = src;
+    img.style.width = "220px";
+    img.style.border = "4px solid #000";
+    img.style.borderRadius = "6px";
+
+    box.appendChild(img);
+  });
+}
+
+
+async function retakePhoto(index) {
+  await countdownMundur(0.0001);
+  doFlash();
+  playShutter();
+
+  const canvas = document.createElement("canvas");
+  canvas.width = camera2.videoWidth;
+  canvas.height = camera2.videoHeight;
+  const ctx = canvas.getContext("2d");
+
+  ctx.translate(canvas.width, 0);
+  ctx.scale(-1, 1);
+  ctx.drawImage(camera2, 0, 0);
+
+  singlePhotosData[index] = canvas.toDataURL("image/png");
+  renderPhotoWithRetake();
+  buatGIF();
+}
+
+function setFilter(type) {
+  activeFilter = type;
+
+  // 🔥 RESET SEMUA BUTTON FILTER
+  document.querySelectorAll(".btnfilter")
+    .forEach(btn => btn.classList.remove("active"));
+
+  // 🔥 AKTIFKAN BUTTON YANG DIKLIK
+  const btn = document.querySelector(
+    `.btnfilter[onclick="setFilter('${type}')"]`
+  );
+  if (btn) btn.classList.add("active");
+
+  renderFilterCanvas();
+  renderFilteredPhotos();
+}
+
+
+function renderFilteredPhotos() {
+  const container = document.getElementById("singlePhotos");
+  container.innerHTML = "";
+filteredPhotosData = []; // reset
+
+singlePhotosData.forEach((src, index) => {
+  const img = new Image();
+  img.src = src;
+
+  img.onload = () => {
+    const canvas = document.createElement("canvas");
+    const ctx = canvas.getContext("2d");
+
+    canvas.width = img.width;
+    canvas.height = img.height;
+
+    switch (activeFilter) {
+      case "bw":
+        ctx.filter = "grayscale(100%) contrast(1.2)";
+        break;
+      case "sepia":
+        ctx.filter = "sepia(100%)";
+        break;
+      case "vintage":
+        ctx.filter = "sepia(60%) contrast(1.2) brightness(0.9)";
+        break;
+      default:
+        ctx.filter = "none";
+    }
+
+    ctx.drawImage(img, 0, 0);
+
+    const filteredData = canvas.toDataURL("image/png");
+    filteredPhotosData[index] = filteredData;
+
+    const el = document.createElement("img");
+    el.src = filteredData;
+    el.style.width = "400px";
+    el.style.border = "4px solid #000";
+    el.style.borderRadius = "6px";
+
+    container.appendChild(el);
+  };
+});
+}
+
+function downloadAllPhotos() {
+  const rawName = document.getElementById("userName").value;
+  const name = sanitizeFileName(rawName);
+
+  // ===============================
+  // FOTO NORMAL
+  // ===============================
+  singlePhotosData.forEach((src, i) => {
+    const a = document.createElement("a");
+    a.href = src;
+    a.download = `${name}_normal_${i + 1}.png`;
+    a.click();
+  });
+
+  // ===============================
+  // FOTO FILTER
+  // ===============================
+  if (filteredPhotosData.length > 0) {
+    filteredPhotosData.forEach((src, i) => {
+      const a = document.createElement("a");
+      a.href = src;
+      a.download = `${name}_${activeFilter}_${i + 1}.png`;
+      a.click();
+    });
+  }
+
+  // ===============================
+  // GIF NORMAL
+  // ===============================
+  const gifBtn = document.getElementById("downloadGifBtn");
+  if (gifBtn && gifBtn.href) {
+    const a = document.createElement("a");
+    a.href = gifBtn.href;
+    a.download = `${name}_normal.gif`;
+    a.click();
+  }
+}
+document
+  .getElementById("downloadAllBtn")
+  .addEventListener("click", downloadAllPhotos);
+
+  
+const rawgifName = document.getElementById("userName").value;
+const gifname = sanitizeFileName(rawgifName);
+
+function base64ToBlob(base64, mime) {
+  const byteChars = atob(base64.split(",")[1]);
+  const byteNumbers = new Array(byteChars.length);
+  for (let i = 0; i < byteChars.length; i++) {
+    byteNumbers[i] = byteChars.charCodeAt(i);
+  }
+  return new Blob([new Uint8Array(byteNumbers)], { type: mime });
+}
+
+function buatGIF() {
+  if (singlePhotosData.length === 0) return;
+
+  const rawgifName = document.getElementById("userName").value;
+  const gifname = sanitizeFileName(rawgifName);
+
+  gifshot.createGIF(
+    {
+      images: singlePhotosData,
+      gifWidth: 640,
+      gifHeight: 480,
+      interval: 0.8
+    },
+    function (obj) {
+      if (obj.error) {
+        alert("Gagal membuat GIF");
+        return;
+      }
+
+      const gifImg = document.getElementById("gifPreview");
+      const downloadBtn = document.getElementById("downloadGifBtn");
+
+      // tampilkan preview
+      gifImg.src = obj.image;
+      gifImg.style.display = "block";
+
+      // convert base64 → blob (WAJIB agar download jalan)
+      const gifBlob = base64ToBlob(obj.image, "image/gif");
+      const gifUrl = URL.createObjectURL(gifBlob);
+
+      downloadBtn.href = gifUrl;
+      downloadBtn.download = `${gifname}_photobooth.gif`;
+      downloadBtn.style.display = "inline-block";
+    }
+  );
+}
+
+/* DOWNLOAD PHOTO STRIP */
+downloadStripBtn.addEventListener("click", () => {
+    const link = document.createElement("a");
+    link.href = photoStrip.src;
+    link.download = "photo-strip.png";
+    link.click();
+});
+
+/*
+   BUTTON LISTENER
+*/
+capture3Btn.addEventListener("click", () => {
+    takeThreePhotos();
+});
+
+
+//password
+  function checkPass() {
+    const correct = "131204"; // ← ubah password sesuai keinginanmu
+    const input = document.getElementById("pass").value;
+
+    if (input === correct) {
+      document.getElementById("masuk").style.display = "block";
+      document.getElementById("berhasil").style.display = "block";
+    } else {
+      document.getElementById("error").style.display = "block";
+    }
+    setTimeout(() => {
+    document.getElementById("error").style.display = "none";
+  }, 3000); // 3000 ms = 3 detik
+    setTimeout(() => {
+    document.getElementById("masuk").style.display = "none";
+  }, 5000); // 3000 ms = 3 detik
+   setTimeout(() => {
+    document.getElementById("berhasil").style.display = "none";
+  }, 5000); // 3000 ms = 3 detik
+  };
+  
+  // music
+  function playMusic() {
+  const audio = document.getElementById("bgm");
+  audio.volume = 0.99; // 0.0 - 1.0
+  audio.play();
+}
+function pauseMusic(){ 
+    const audio = document.getElementById("bgm");
+    audio.pause();      // stop
+
+}
+  // music
+  function playMusic1() {
+  const audio = document.getElementById("bgm1");
+  audio.volume = 0.99; // 0.0 - 1.0
+  audio.play();
+}
+function pauseMusic1(){ 
+    const audio = document.getElementById("bgm1");
+    audio.pause();      // stop
+}
+  // music
+  function playMusic2() {
+  const audio = document.getElementById("bgm2");
+  audio.volume = 0.99; // 0.0 - 1.0
+  audio.play();
+}
+function pauseMusic2(){ 
+    const audio = document.getElementById("bgm2");
+    audio.pause();      // stop
+}
+  // music
+  function playMusic3() {
+  const audio = document.getElementById("bgm3");
+  audio.volume = 0.99; // 0.0 - 1.0
+  audio.play();
+}
+function pauseMusic3(){ 
+    const audio = document.getElementById("bgm3");
+    audio.pause();      // stop
+
+}
+// --- 5. PHYSICAL BUTTON CONTROL (A/B) ---
+function handleControl(button) {
+    const currentSection = document.querySelector('.section[style*="display: block"]');
+
+    if (!currentSection) {
+        return;
+    }
+
+    if (button === 'B') {
+        if (currentSection.id === 'photobooth') {
+            stopCamera();
+        }
+        backMenu();
+        return;
+    }
+
+    if (button === 'A') {
+        if (currentSection.id === 'photobooth') {
+            captureBtn.click(); 
+        } 
+    }
+}
+
+// Tambahkan efek tekan visual pada tombol fisik
+document.querySelectorAll('.btnA, .btnB').forEach(btn => {
+    btn.addEventListener('mousedown', () => btn.classList.add('active'));
+    btn.addEventListener('mouseup', () => btn.classList.remove('active'));
+    btn.addEventListener('mouseleave', () => btn.classList.remove('active')); 
+});
+
+function openFullscreen() {
+  const elem = document.documentElement;
+
+  if (elem.requestFullscreen) {
+    elem.requestFullscreen();
+  } else if (elem.webkitRequestFullscreen) {
+    elem.webkitRequestFullscreen(); // Safari
+  } else if (elem.msRequestFullscreen) {
+    elem.msRequestFullscreen(); // IE11
+  }
+}
+const flash = document.getElementById("flash");
+const beepSound = document.getElementById("beepSound");
+const shutterSound = document.getElementById("shutterSound");
+
+function playBeep() {
+  beepSound.currentTime = 0;
+  beepSound.play();
+}
+
+function playShutter() {
+  shutterSound.currentTime = 0;
+  shutterSound.play();
+}
+
+function doFlash() {
+  flash.classList.remove("flash");
+  void flash.offsetWidth; // reflow
+  flash.classList.add("flash");
+}
+function countdownMundur(detik) {
+  return new Promise(resolve => {
+    let sisa = detik;
+
+    const timer = setInterval(() => {
+      countdown.textContent = sisa;
+      countdown.style.animation = "pop 1s ease";
+      playBeep();
+
+      sisa--;
+
+      if (sisa < 0) {
+        clearInterval(timer);
+        countdown.textContent = "📸";
+        resolve();
+      }
+    }, 1);
+  });
+}
+function sanitizeFileName(name) {
+  return name
+    .trim()
+    .toLowerCase()
+    .replace(/\s+/g, "_")       // spasi → _
+    .replace(/[^a-z0-9_-]/g, "") // hapus simbol
+    || "gueststar";
+}
+function confirmName() {
+  const nama = document.getElementById("userName").value.trim();
+  const warning = document.getElementById("warning");
+    const inputthename = document.getElementById("inputUName");
+  if (nama === "") {
+    warning.style.display = "block";
+    return;
+  }
+  warning.style.display = "none";
+    inputthename.style.display="none";
+    openSection("frameSelect");
+}
+function drawImageContain(ctx, img, x, y, w, h) {
+  const imgRatio = img.width / img.height;
+  const boxRatio = w / h;
+
+  let drawW, drawH;
+
+  if (imgRatio > boxRatio) {
+    drawW = w;
+    drawH = w / imgRatio;
+  } else {
+    drawH = h;
+    drawW = h * imgRatio;
+  }
+
+  const offsetX = x + (w - drawW) / 2;
+  const offsetY = y + (h - drawH) / 2;
+
+  ctx.drawImage(img, offsetX, offsetY, drawW, drawH);
+}
+
+
+function resetKeAwal() {
+  // STOP kamera
+
+  // RESET data
+  singlePhotosData = [];
+
+  // RESET preview foto satuan
+  const singlePhotos = document.getElementById("singlePhotos");
+  if (singlePhotos) singlePhotos.innerHTML = "";
+
+  // RESET GIF
+  const gifPreview = document.getElementById("gifPreview");
+  const downloadGifBtn = document.getElementById("downloadGifBtn");
+  if (gifPreview) {
+    gifPreview.src = "";
+    gifPreview.style.display = "none";
+  }
+  if (downloadGifBtn) {
+    downloadGifBtn.href = "";
+    downloadGifBtn.style.display = "none";
+  }
+const frameSelects = document.getElementById("frameList");
+const frameSelects2 = document.getElementById("framePreview");
+if (frameSelects){
+    frameSelects.src = "";
+    frameSelects2.src = "";
+    selectedFrame ="";
+    totalPhotos ="";
+}
+  // RESET photo strip (jika ada)
+  const photoStrip = document.getElementById("photoStrip");
+  if (photoStrip) {
+    photoStrip.src = "";
+    photoStrip.style.display = "none";
+  }
+
+  // RESET input nama
+  const nameInput = document.getElementById("userName");
+  if (nameInput) nameInput.value = "";
+
+  // RESET tombol capture
+  capture3Btn.disabled = false;
+  capture3Btn.style.display = "block";
+
+  // RESET countdown
+  countdown.textContent = "";
+
+  // KEMBALI KE MENU AWAL
+  document.querySelectorAll(".section, .section2").forEach(s => {
+    s.style.display = "none";
+  });
+  document.getElementById("startScreen").style.display = "flex";
+}
+
+document
+  .getElementById("resetBtn")
+  .addEventListener("click", resetKeAwal);
+document.addEventListener("keydown", (e) => {
+  const key = e.key.toLowerCase();
+
+  // SECTION YANG AKTIF
+  const activeSection =
+    document.querySelector('.section[style*="display: flex"], .section2[style*="display: flex"], .section3[style*="display: flex"], .section4[style*="display: flex"], .section5[style*="display: flex"]');
+
+  if (!activeSection) return;
+
+  // ===============================
+  // 📸 PHOTOBOOTH (KAMERA)
+  // ===============================
+  if (activeSection.id === "photobooth") {
+    if (key === "enter" || key === "alt") {
+      e.preventDefault();
+      capture3Btn.click(); // Capture
+    }
+  }
+  document.addEventListener("keydown", (e) => {
+  if (startScreen.style.display !== "none") {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      startBtn.click();
+    }
+  }
+});
+
+if (activeSection.id === "frameSelect") {
+    if (["1","2","3","4","5","6"].includes(key)) {
+      const thumbs = document.querySelectorAll(".frame-thumb");
+      if (thumbs[key - 1]) thumbs[key - 1].click();
+    }
+    if (key === "enter") confirmFrame();
+  }
+  
+  // ===============================
+  // 🖼️ PREVIEW FOTO
+  // ===============================
+  if (activeSection.id === "previewStep") {
+    if (key === "arrowright" || key === "enter") {
+      confirmFromPreview(); // OK
+    }
+    if (key === "arrowleft" || key === "r") {
+      retakeFromPreview(); // Retake
+    }
+  }
+
+  // ===============================
+  // 🎨 FILTER (FINAL)
+  // ===============================
+  if (activeSection.id === "photoboothh") {
+    if (key === "enter") {
+      downloadAllPhotos();
+    }
+     if (key === "1") {
+    setFilter("normal");
+  }
+
+  if (key === "2") {
+    setFilter("bw");
+  }
+
+  if (key === "3") {
+    setFilter("sepia");
+  }
+
+  if (key === "4") {
+    setFilter("vintage");
+  }
+ if (key === "5") {
+    setFilter("warm");
+  }
+   if (key === "6") {
+    setFilter("cool");
+  }
+   if (key === "7") {
+    setFilter("retro");
+  }
+   if (key === "q") {
+    setFilter("highcontrast");
+  }
+   if (key === "w") {
+    setFilter("fadepastel");
+  }
+   if (key === "e") {
+    setFilter("dramatic");
+  } if (key === "r") {
+    setFilter("pinky");
+  }
+   if (key === "t") {
+    setFilter("goldenhour");
+  }
+    if (key === "escape") {
+      resetKeAwal();
+    }
+  }
+
+  // ===============================
+  // 🧑 INPUT NAMA
+  // ===============================
+  if (activeSection.id === "inputUName") {
+    if (key === "enter") {
+      confirmName();
+    }
+  }
+
+  // ===============================
+  // 🖼️ PILIH FRAME
+  // ===============================
+  if (activeSection.id === "frameSelect") {
+    if (key === "enter") {
+      confirmFrame();
+    }   
+  }
+});
+
+</script>
