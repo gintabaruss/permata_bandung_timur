@@ -554,11 +554,25 @@
 
 <div id="frameSelect" class="section">
     <!-- THUMBNAILS -->
+
   <div id="frameList"
      style="display:flex;gap:16px;justify-content:center;margin:25px 0;flex-wrap:wrap;overflow:visible">
   </div>
+  <p style="
+  position: absolute;
+  bottom: 665px;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  font-size: 35px;
+  color: black;
+  letter-spacing: 18.1px;
+">
+  1 2 3 4 5 6 7 8 9
+</p>
   <!-- PREVIEW BESAR -->
   <div style="display:flex;justify-content:center;">
+    
     <img id="framePreview"
          style="width:175px;border:6px solid #000;border-radius:10px">
   </div>
@@ -783,6 +797,19 @@ const frames = [
     count: 3,bg:"#fff",
     thumb: "https://github.com/gintabaruss/permata_bandung_timur/blob/main/6.png?raw=true",
     preview: "https://github.com/gintabaruss/permata_bandung_timur/blob/main/6.png?raw=true"
+  },{
+    id: "frame33",
+    name: "Pink Classic (3 Foto)",
+    count: 3,bg:"#fff",
+    thumb: "https://github.com/gintabaruss/permata_bandung_timur/blob/main/8.png?raw=true",
+    preview: "https://github.com/gintabaruss/permata_bandung_timur/blob/main/8.png?raw=true"
+  },
+  {
+    id: "frame43",
+    name: "Pink Classic (3 Foto)",
+    count: 3,bg:"#fff",
+    thumb: "https://github.com/gintabaruss/permata_bandung_timur/blob/main/9.png?raw=true",
+    preview: "https://github.com/gintabaruss/permata_bandung_timur/blob/main/9.png?raw=true"
   },
   {
     id: "frame14",
@@ -809,7 +836,14 @@ const frames = [
     count: 4,bg:"#fff",
     thumb: "https://github.com/gintabaruss/permata_bandung_timur/blob/main/4.png?raw=true",
     preview: "https://github.com/gintabaruss/permata_bandung_timur/blob/main/4.png?raw=true"
+  },{
+    id: "frame12",
+    name: "Green (4 Foto)",
+    count: 2,bg:"#fff",
+    thumb: "https://github.com/gintabaruss/permata_bandung_timur/blob/main/7.png?raw=true",
+    preview: "https://github.com/gintabaruss/permata_bandung_timur/blob/main/7.png?raw=true"
   }
+ 
 ];
 let selectedFrameImg = new Image();
 
@@ -926,6 +960,10 @@ let filteredPhotosData = [];
 const rawName = document.getElementById("userName").value;
 const safeName = sanitizeFileName(rawName);
 const frameLayouts = {
+    frame12:[
+     {  y: 223, w: 275, h: 290 },
+    {  y: 442.5, w: 275, h: 290 }
+  ],
   frame13: [
      {  y: 42, w: 255, h: 215 },
     {  y: 240, w: 230, h: 235 },
@@ -935,6 +973,16 @@ const frameLayouts = {
     {  y: 3, w: 212, h: 216 },
     {  y: 230, w: 212, h: 216 },
     {  y: 457, w: 212, h: 216 }
+  ],
+  frame33: [
+    {  y: 26, w: 234, h: 258 },
+    {  y: 227, w: 214, h: 218 },
+    {  y: 385, w: 234, h: 258 }
+  ],
+  frame43: [
+    {  y: 16, w: 256, h: 271 },
+    {  y: 215, w: 256, h: 271 },
+    {  y: 410, w: 256, h: 271 }
   ],
   frame14: [
     {  y: 33.5, w: 222, h: 128 },
@@ -963,7 +1011,7 @@ const frameLayouts = {
 };
 
 async function takeSinglePhoto() {
-  await countdownMundur(5);
+  await countdownMundur(0.00001);
   doFlash();
   playShutter();
 
@@ -1342,7 +1390,7 @@ capture3Btn.addEventListener("click", () => {
 
 //password
   function checkPass() {
-    const correct = "131204"; // ← ubah password sesuai keinginanmu
+    const correct = "123456"; // ← ubah password sesuai keinginanmu
     const input = document.getElementById("pass").value;
 
     if (input === correct) {
@@ -1480,7 +1528,7 @@ function countdownMundur(detik) {
         countdown.textContent = "📸";
         resolve();
       }
-    }, 1000);
+    }, 1);
   });
 }
 function sanitizeFileName(name) {
@@ -1607,15 +1655,36 @@ document.addEventListener("keydown", (e) => {
     }
   }
 });
-
 if (activeSection.id === "frameSelect") {
-    if (["1","2","3","4","5","6"].includes(key)) {
-      const thumbs = document.querySelectorAll(".frame-thumb");
-      if (thumbs[key - 1]) thumbs[key - 1].click();
+  const thumbs = document.querySelectorAll(".frame-thumb");
+
+  // ===== Pilih pakai angka 1–9 =====
+  if (/^[1-9]$/.test(key)) {
+    const index = parseInt(key) - 1;
+    if (thumbs[index]) {
+      frameIndex = index; // sinkronkan index
+      thumbs[frameIndex].click();
     }
-    if (key === "enter") confirmFrame();
   }
-  
+
+  // ===== Arrow kanan =====
+  if (key === "arrowright") {
+    frameIndex = (frameIndex + 1) % thumbs.length;
+    thumbs[frameIndex].click();
+  }
+
+  // ===== Arrow kiri =====
+  if (key === "arrowleft") {
+    frameIndex = (frameIndex - 1 + thumbs.length) % thumbs.length;
+    thumbs[frameIndex].click();
+  }
+
+  // ===== Enter =====
+  if (key === "enter") {
+    confirmFrame();
+  }
+}
+
   // ===============================
   // 🖼️ PREVIEW FOTO
   // ===============================
@@ -1632,6 +1701,18 @@ if (activeSection.id === "frameSelect") {
   // 🎨 FILTER (FINAL)
   // ===============================
   if (activeSection.id === "photoboothh") {
+       const thumbs = document.querySelectorAll(".frame-thumb");
+      
+      if (key === "arrowright") {
+    frameIndex = (frameIndex + 1) % thumbs.length;
+    thumbs[frameIndex].click();
+  }
+
+  // ===== Arrow kiri =====
+  if (key === "arrowleft") {
+    frameIndex = (frameIndex - 1 + thumbs.length) % thumbs.length;
+    thumbs[frameIndex].click();
+  }
     if (key === "enter") {
       downloadAllPhotos();
     }
