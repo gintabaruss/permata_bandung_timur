@@ -1011,7 +1011,7 @@ const frameLayouts = {
 };
 
 async function takeSinglePhoto() {
-  await countdownMundur(0.00001);
+  await countdownMundur(5);
   doFlash();
   playShutter();
 
@@ -1528,7 +1528,7 @@ function countdownMundur(detik) {
         countdown.textContent = "📸";
         resolve();
       }
-    }, 1);
+    }, 1000);
   });
 }
 function sanitizeFileName(name) {
